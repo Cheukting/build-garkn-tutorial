@@ -1,6 +1,6 @@
 # Building a Grakn Knowledge Graph for Game Of Throne
 
-In this tutorial, we will use the character information from the Game of Throne to build a knowledge graph using [Grakn Client in Python](https://dev.grakn.ai/docs/client-api/python). The data that we use is originally form this [csv](https://github.com/ShirinG/blog_posts_prep/blob/master/GoT/character-predictions.csv). We are using Python >= 3.6.
+In this tutorial, we will use the character information from the Game of Throne to build a knowledge graph using [Grakn Client in Python](https://dev.grakn.ai/docs/client-api/python). The data that we use originally from this [csv](https://github.com/ShirinG/blog_posts_prep/blob/master/GoT/character-predictions.csv). We are using Python >= 3.6.
 
 For the advantage of using Grakn and what we can get out of this knowledge graph, please refer to this [blog post](#link-to-blog-post).
 
@@ -12,7 +12,7 @@ We assume you have already downloaded Grakn Core. To install Grakn Core, you can
 
 Schema of the knowledge graph is defined in a Graql file (.gql), and in the file, we have to define some `relations` `entities` and `attributes`.
 
-First let's define some `relation`s in `game-of-theones-schema.gql`:
+First, let's define some `relation`s in `game-of-theones-schema.gql`:
 
 ```graql
 define
@@ -29,7 +29,7 @@ define
     relates organization,
     relates member;
 ```
-As you may guessed, `relation` is like a link between 2 things, for example, the `patental` `relation` link up `parent` and `heir`.
+As you may have guessed, `relation` is like a link between 2 things, for example, the `patental` `relation` link up `parent` and `heir`.
 
 So now you may think, do we have to define `parent` and `heir` etc? The answer is yes, but through defining `entities`:
 
@@ -52,7 +52,7 @@ house sub entity,
   has name;
 ```
 
-Now there is some interesting things. Let's look at the `character` `entity`. It `plays` certain rows and we recognize some familiar names like `parent` and `heir`. So by defining what role this `entity` can play, we define what `relation` can be attached to this `entity`.
+Now there are some interesting things. Let's look at the `character` `entity`. It `plays` certain rows and we recognize some familiar names like `parent` and `heir`. So by defining what role this `entity` can play, we define what `relation` can be attached to this `entity`.
 
 In `character`, we also see that it `has` many `attributes` like `name`, `title` and `gender`. The next step is to define those `attributes`, e.g. what `datatypes` they are:
 
@@ -75,7 +75,7 @@ You can see `attribute` can be common `datatypes` such as `string`, `long` and `
 
 #### Loading in the schema
 
-Now, start the grakn by:
+Now, start the Grakn by:
 ```
 grakn server start
 ```
@@ -83,7 +83,7 @@ then load in the schema by:
 ```
 grakn console --keyspace game_of_thrones --file $(pwd)/game-of-theones-schema.gql
 ```
-after, you can check what is loaded by using the grakn console:
+after, you can check what is loaded by using the Grakn console:
 ```
 grakn console --keyspace game_of_thrones
 ```
@@ -119,7 +119,7 @@ It should show
 {$x type @has-alive sub @has-attribute;}
 ```
 
-To know more about Grakn schema, you can refer to [official documentation](https://dev.grakn.ai/docs/schema/overview) on Grakn.ai
+To know more about Grakn schema, you can refer to the [official documentation](https://dev.grakn.ai/docs/schema/overview) on Grakn.ai
 
 ## From csv to Grakn
 
@@ -136,7 +136,7 @@ and use [tqdm](https://tqdm.github.io/) for the progress bar:
 pip install tqdm==4.32.2
 ```
 
-Now we are ready to go, first, lets import the libraries in `csv-to-grakn.py`:
+Now we are ready to go, first, let's import the libraries in `csv-to-grakn.py`:
 
 ```python
 from grakn.client import GraknClient
@@ -165,12 +165,12 @@ def read_csv(path_to_file):
     data = data.fillna("")
     return data
 ```
-Notice that we are not using all columns in the csv so we only select the columns that we are interested. Also, we have to do some data cleaning:
+Notice that we are not using all columns in the csv so we only select the columns that we are interested in. Also, we have to do some data cleaning:
 1. renaming column `name` to `char_name` as `name` is a reserved attribute for pandas DataFrame.
 2. filling `na`s in age with -1
 3. filling the rest of the `na`s to be an empty string.
 
-Then we have to think about what we have to load in the graph. Remeber our schema? We have 2 entities `character` and `house`, and 3 relations `parental`, `marriage` and `membership`. So when we load in the data, it will be more or less like this:
+Then we have to think about what we have to load in the graph. Remember our schema? We have 2 entities `character` and `house`, and 3 relations `parental`, `marriage` and `membership`. So when we load in the data, it will be more or less like this:
 
 ```python
 def load_data_into_grakn(session,input_df):
@@ -190,14 +190,14 @@ def load_data_into_grakn(session,input_df):
 ```
 To explain:
 1. progress_apply is the same as [pandas apply](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.apply.html), just a tqdm version with the progress bar.
-2. the `sessions` that got passed around is the session connecting to the grakn graph, it is needed to make the queries. You will see it being using when we define the functions.
+2. the `sessions` that got passed around is the session connecting to the Grakn graph, it is needed to make the queries. You will see it being used when we define the functions.
 3. All but `house` are loaded in row by row by using apply.
 4. For `house`,  we will just use the `unique` method in pandas to get a list of `house`s and load them in with a for-loop
 5. We have to load things in order, the entities first than relations.
 
-Let's see how each functions for loading in one item are defined:
+Let's see how each function for loading in one item is defined:
 
-#### character
+#### Character
 
 ```python
 def insert_one_character(df,session):
@@ -223,7 +223,7 @@ def insert_one_character(df,session):
 
 It has 2 main parts:
 
-1. Composing the query - incluing the data manipulation at the beginning, and
+1. Composing the query - including the data manipulation at the beginning, and
 2. passing the query using the client
 
 [*documentation for how to make an insert query using graql*](https://dev.grakn.ai/docs/query/insert-query)
@@ -256,7 +256,7 @@ def insert_one_marriage(df,session):
         transaction.query(graql_insert_query)
         transaction.commit()
 ```
-For relations, we have to be sure the relation exist so there's the check at the beginning. Also, the query is a bit different, it consist of a [match](https://dev.grakn.ai/docs/query/match-clause) then insert.
+For relations, we have to be sure the relation exists so there's the check at the beginning. Also, the query is a bit different, it consists of a [match](https://dev.grakn.ai/docs/query/match-clause) then insert.
 
 #### Membership
 
@@ -311,7 +311,7 @@ def insert_one_parental(df,session):
 
 For `parental` it is more complicated than `marriage` and `membership`, as for each row of the data frame, it may have 3 relations: father and character, mother and character, and character and heir. So this function is a bit like a 3-in-1.
 
-Finally, we use a function to wrap up loading data into grakn:
+Finally, we use a function to wrap up the process of loading data into Grakn:
 
 ```python
 def build_grakn_graph(input_df, keyspace_name):
@@ -339,7 +339,7 @@ After loading all the data, we can start making graql queries to answer all the 
 
 ## Simple Graql Query
 
-Actually this session should deserve another tutorial for that, but to test out our work for this tutorial, we will demonstrate some simple use for grakn and graql queries. For more about what Grakn can do, please refer to this [article](#link-to-other-blog-or-tutorial)
+This session should deserve another tutorial for that, but to test out our work for this tutorial, we will demonstrate some simple use for Grakn and graql queries. For more about what Grakn can do, please refer to this [article](#link-to-other-blog-or-tutorial)
 
 #### Find all members of the Night's Watch
 
