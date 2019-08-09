@@ -1,0 +1,43 @@
+define
+
+  parental sub relation,
+    relates parent,
+    relates heir;
+
+  marriage sub relation,
+    relates partner1,
+    relates partner2;
+
+  membership sub relation,
+    relates organization,
+    relates member;
+
+  character sub entity,
+    plays parent,
+    plays heir,
+    plays partner1,
+    plays partner2,
+    plays member,
+    has name,
+    has title,
+    has gender,
+    has culture,
+    has age,
+    has alive;
+
+  house sub entity,
+    plays organization,
+    has name;
+
+  name sub attribute,
+	  datatype string;
+  title sub attribute,
+	  datatype string;
+  gender sub attribute,
+    datatype string;
+  culture sub attribute,
+	  datatype string;
+  age sub attribute,
+	  datatype long;
+  alive sub attribute,
+    datatype boolean;
