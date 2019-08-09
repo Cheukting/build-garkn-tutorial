@@ -329,7 +329,7 @@ build_grakn_graph(raw_data, 'game_of_thrones')
 
 We put the csv in a directory called `data`, you may change the path to where you put your csv.
 
-Now the Python script is ready (you may have a look at the final product [here](#link-to-py-file-on-github)), run the script by:
+Now the Python script is ready (you may have a look at the final product [here](https://github.com/Cheukting/build-garkn-tutorial/blob/master/csv-to-grakn.py)), run the script by:
 
 ```
 python csv-to-grakn.py
