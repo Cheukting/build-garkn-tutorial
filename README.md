@@ -2,7 +2,7 @@
 
 In this tutorial, we will use the character information from the Game of Throne to build a knowledge graph using [Grakn Client in Python](https://dev.grakn.ai/docs/client-api/python). The data that we use originally from this [csv](https://github.com/ShirinG/blog_posts_prep/blob/master/GoT/character-predictions.csv). We are using Python >= 3.6.
 
-For the advantage of using Grakn and what we can get out of this knowledge graph, please refer to this [blog post](#link-to-blog-post).
+For the advantage of using Grakn and what we can get out of this knowledge graph, please refer to this [blog post](https://medium.com/@cheukting.ho/grakn-a-smarter-database-that-could-handle-reasonings-like-a-human-2f7742dae5e6?source=friends_link&sk=4fb54e5aa64baf7312550b5e2aed80be).
 
 We assume you have already downloaded Grakn Core. To install Grakn Core, you can follow the instruction on their [GitHub](https://medium.com/r/?url=https%3A%2F%2Fgithub.com%2Fgraknlabs%2Fgrakn).
 
@@ -339,7 +339,7 @@ After loading all the data, we can start making graql queries to answer all the 
 
 ## Simple Graql Query
 
-This session should deserve another tutorial for that, but to test out our work for this tutorial, we will demonstrate some simple use for Grakn and graql queries. For more about what Grakn can do, please refer to this [article](#link-to-other-blog-or-tutorial)
+This session should deserve another tutorial for that, but to test out our work for this tutorial, we will demonstrate some simple use for Grakn and graql queries. For more about what Grakn can do, please refer to this [article](https://medium.com/@cheukting.ho/grakn-a-smarter-database-that-could-handle-reasonings-like-a-human-2f7742dae5e6?source=friends_link&sk=4fb54e5aa64baf7312550b5e2aed80be)
 
 #### Find all members of the Night's Watch
 
