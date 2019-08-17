@@ -252,7 +252,7 @@ def insert_one_marriage(df,session):
                            f'has name "{df.char_name}"; ' \
                            f'$spouse isa character, ' \
                            f'has name "{df.spouse}";' \
-                           f'insert $marriage(partner1: $spouse, partner2: $character) isa marrage;'
+                           f'insert $marriage(partner1: $spouse, partner2: $character) isa marriage;'
         transaction.query(graql_insert_query)
         transaction.commit()
 ```

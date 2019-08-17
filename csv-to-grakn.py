@@ -84,7 +84,7 @@ def insert_one_marriage(df,session):
                            f'has name "{df.char_name}"; ' \
                            f'$spouse isa character, ' \
                            f'has name "{df.spouse}";' \
-                           f'insert $marriage(partner1: $spouse, partner2: $character) isa marrage;'
+                           f'insert $marriage(partner1: $spouse, partner2: $character) isa marriage;'
         # make a write transection with the query
         transaction.query(graql_insert_query)
         # remember to commit at the end
@@ -180,7 +180,7 @@ def load_data_into_grakn(session,input_df):
     # using progress_apply instead of apply so we have a progress bar form tqdm
     input_df.progress_apply(insert_one_parental, axis=1, session=session)
 
-    print("Inserting marrage...")
+    print("Inserting marriage...")
     # using progress_apply instead of apply so we have a progress bar form tqdm
     input_df.progress_apply(insert_one_marriage, axis=1, session=session)
 
@@ -197,7 +197,7 @@ def build_grakn_graph(input_df, keyspace_name):
         with client.session(keyspace = keyspace_name) as session:
             load_data_into_grakn(session,input_df)
 
-### main part of the program ###
+### main part of the program starts here ###
 
 # read the csv into DataFrame, it is stored in the sub-directory named 'data'
 raw_data = read_csv('data/game-of-thrones-character-predictions.csv')
