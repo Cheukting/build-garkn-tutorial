@@ -27,6 +27,15 @@ def forming_ally(session):
         # remember to commit at the end
         transaction.commit()
 
+def _convert_id_to_name(cluster, transaction):
+    new_cluster = set()
+    for element in cluster:
+        graql_query = f'match $char id {element}, has name $name; get $name;'
+        iterator = transaction.query(graql_query)
+        answers = iterator.collect_concepts()
+        for answer in answers:
+            new_cluster.add(answer.value())
+    return new_cluster
 
 def getting_biggest_group(session):
     """
@@ -42,13 +51,7 @@ def getting_biggest_group(session):
         # extracting the name of the characters in each clusters
         new_result = []
         for cluster in result:
-            new_cluster = set()
-            for element in cluster:
-                graql_query = f'match $char id {element}, has name $name; get $name;'
-                iterator = transaction.query(graql_query)
-                answers = iterator.collect_concepts()
-                for answer in answers:
-                    new_cluster.add(answer.value())
+            new_cluster = _convert_id_to_name(cluster, transaction)
             new_result.append(new_cluster)
 
         # finding the biggest group of people
@@ -81,13 +84,7 @@ def getting_main_character(session):
                 biggest_cluster = group
 
         # finding the name of the characters
-        main_characters = set()
-        for element in biggest_cluster:
-            graql_query = f'match $char id {element}, has name $name; get $name;'
-            iterator = transaction.query(graql_query)
-            answers = iterator.collect_concepts()
-            for answer in answers:
-                main_characters.add(answer.value())
+        main_characters = _convert_id_to_name(biggest_cluster, transaction)
 
     return max_measure, main_characters
 
