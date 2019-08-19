@@ -28,6 +28,9 @@ def forming_ally(session):
         transaction.commit()
 
 def _convert_id_to_name(cluster, transaction):
+    """
+    Helper function to convert the cluster with ids to cluster with names.
+    """
     new_cluster = set()
     for element in cluster:
         graql_query = f'match $char id {element}, has name $name; get $name;'
